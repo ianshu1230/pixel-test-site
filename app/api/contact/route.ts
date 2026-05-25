@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   try {
     await initTable()
     const result = await insertSubmission(body)
-    return NextResponse.json({ ok: true, id: result.rows[0]?.id })
+    return NextResponse.json({ ok: true, id: result[0]?.id })
   } catch (err) {
     console.error('DB error:', err)
     // Return 200 so the client knows Pixel events fired; DB setup may be pending

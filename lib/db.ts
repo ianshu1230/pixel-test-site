@@ -27,10 +27,10 @@ export async function insertSubmission(data: {
   message:     string
 }) {
   const sql = getSql()
-  const result = await sql`
+  const rows = await sql`
     INSERT INTO submissions (name, email, service_type, message)
     VALUES (${data.name}, ${data.email}, ${data.serviceType}, ${data.message})
     RETURNING id
   `
-  return result
+  return rows as { id: number }[]
 }
