@@ -92,20 +92,7 @@ export default function Page() {
     return () => document.removeEventListener('click', fn)
   }, [trackCustom])
 
-  // Contact links
-  useEffect(() => {
-    const fn = (e: MouseEvent) => {
-      const el = (e.target as Element).closest<HTMLAnchorElement>('a[href]')
-      if (!el) return
-      const href = el.getAttribute('href') ?? ''
-      const method = href.startsWith('tel:') ? 'phone' : href.startsWith('mailto:') ? 'email' : href.includes('line.me') ? 'line' : null
-      if (method) track('Contact', { contact_method: method, page_path: window.location.pathname })
-    }
-    document.addEventListener('click', fn)
-    return () => document.removeEventListener('click', fn)
-  }, [track])
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const f = e.currentTarget
     track('Lead', { form_id: 'contact-form', page_path: window.location.pathname })
@@ -133,17 +120,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Contact links */}
-      <section style={{ marginBottom: 48 }}>
-        <h2 style={{ fontSize: 14, color: '#888', marginBottom: 12 }}>聯絡方式 — Contact</h2>
-        <div style={{ display: 'flex', gap: 12 }}>
-          <a href="tel:0912345678" style={linkStyle('#856404', '#fff3cd')}>📞 電話</a>
-          <a href="mailto:hello@example.com" style={linkStyle('#0c5460', '#d1ecf1')}>✉️ Email</a>
-          <a href="https://line.me/ti/p/example" target="_blank" rel="noreferrer" style={linkStyle('#155724', '#d4edda')}>💬 LINE</a>
-        </div>
-      </section>
-
-      {/* Form */}
+{/* Form */}
       <section style={{ marginBottom: 48 }}>
         <h2 style={{ fontSize: 14, color: '#888', marginBottom: 12 }}>表單送出 — Lead + CompleteRegistration</h2>
         <form id="contact-form" onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 400 }}>
@@ -215,11 +192,6 @@ export default function Page() {
 const btnStyle = (bg: string): React.CSSProperties => ({
   padding: '10px 20px', background: bg, color: '#fff', border: 'none',
   borderRadius: 6, fontWeight: 600, cursor: 'pointer', fontSize: 14,
-})
-
-const linkStyle = (color: string, bg: string): React.CSSProperties => ({
-  padding: '8px 16px', background: bg, color, border: `1px solid ${color}40`,
-  borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: 14,
 })
 
 const inputStyle: React.CSSProperties = {
